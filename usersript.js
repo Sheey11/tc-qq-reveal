@@ -3,7 +3,7 @@
 // @namespace    tencent-course
 // @compatible   Chrome
 // @description  自动在腾讯课堂聊天框内显示用户的 QQ 号
-// @version      1.0
+// @version      1.1
 // @author       Sheey
 // @match        *://ke.qq.com/webcourse/index.html*
 // @run-at       document-end
@@ -12,13 +12,15 @@
 
 /*jshint esversion: 6 */
 
+let num_chat = 0;
+
 function addListener() {
-    console.info('injecting');
     var ele = document.querySelector('.chat-list');
     if(ele != null){
         ele.addEventListener('DOMSubtreeModified', (event) => {
-            console.info('changed');
             let a = document.querySelectorAll('.chat-item.chat-item-msg');
+            if(num_chat == a.length) return;
+            num_chat = a.length
             for(let child of a){
                 let name = child.children[0].querySelector('.member-item-inner-fullline').innerText;
                 if(name.endsWith('）'))continue;
